@@ -1,14 +1,14 @@
 import jwt from 'jsonwebtoken';
 import User from '../models/User';
 
-import { LoginSchema } from '../validations/Login';
+import { StoreSchema } from '../validations/Login';
 
 import authConfig from '../../config/auth';
 
 class LoginController {
   async store(req, res) {
     try {
-      await LoginSchema.validate(req.body);
+      await StoreSchema.validate(req.body);
 
       const { email, password } = req.body;
 
