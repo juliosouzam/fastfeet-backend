@@ -1,6 +1,8 @@
 import Courier from '../models/Courier';
 import File from '../models/File';
 
+import { StoreSchema, UpdateSchema } from '../validations/Courier';
+
 class CourierController {
   async index(req, res) {
     const { page = 1, limit = 20 } = req.query;
@@ -23,11 +25,17 @@ class CourierController {
   }
 
   async store(req, res) {
-    const { name, email, avatar_id } = req.body;
+    try {
+      await StoreSchema.validate(req.body);
 
-    const courier = await Courier.create({ name, email, avatar_id });
+      const { name, email, avatar_id } = req.body;
 
-    return res.json(courier);
+      const courier = await Courier.create({ name, email, avatar_id });
+
+      return res.json(courier);
+    } catch (error) {
+      return res.status(400).json(error);
+    }
   }
 
   async show(req, res) {
@@ -46,13 +54,29 @@ class CourierController {
   }
 
   async update(req, res) {
-    const { name, email, avatar_id } = req.body;
+    try {
+      await UpdateSchema.validate(req.body);
 
-    const courier = await Courier.findByPk(req.params.courier_id);
+      const { name, email, avatar_id } = req.body;
 
-    courier.update({ name, email, avatar_id });
+      const courier = await Courier.findByPk(req.params.courier_id);
 
-    return res.json(courier);
+      if (email && email !== courier.email) {
+        const eExists = await Courier.findOne({ where: { email } });
+
+        if (eExists) {
+          return res
+            .status(400)
+            .json({ error: 'Email its already being used' });
+        }
+      }
+
+      courier.update({ name, email, avatar_id });
+
+      return res.json(courier);
+    } catch (error) {
+      return res.status(400).json(error);
+    }
   }
 
   async destroy(req, res) {
