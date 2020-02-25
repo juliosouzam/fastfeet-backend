@@ -5,6 +5,7 @@ import LoginController from './app/controllers/LoginController';
 import RecipientController from './app/controllers/RecipientController';
 import CourierController from './app/controllers/CourierController';
 import FileController from './app/controllers/FileController';
+import OrderController from './app/controllers/OrderController';
 
 import authMiddleware from './app/middlewares/auth';
 
@@ -28,5 +29,12 @@ routes.post('/couriers', CourierController.store);
 routes.get('/couriers/:courier_id', CourierController.show);
 routes.put('/couriers/:courier_id', CourierController.update);
 routes.delete('/couriers/:courier_id', CourierController.destroy);
+
+// Manager Orders
+routes.get('/orders', OrderController.index);
+routes.post('/orders', OrderController.store);
+routes.get('/orders/:order_id', OrderController.show);
+routes.put('/orders/:order_id', OrderController.update);
+routes.delete('/orders/:order_id', OrderController.destroy);
 
 export default routes;
