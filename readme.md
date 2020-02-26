@@ -20,7 +20,7 @@ It was developed with [Node.js](https://nodejs.org/en/) for the Rocketseat Bootc
 - [Yup](https://github.com/jquense/yup)
 - [Docker](https://docs.docker.com/install/)
 
-## :computer: Configuring
+## :computer: Configure
 
 To run this application i recommend you to install [Docker](https://docs.docker.com/install/) and [configure](https://docs.docker.com/install/linux/linux-postinstall/) it to use with your user system. (If you needed).
 
