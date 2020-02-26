@@ -1,7 +1,5 @@
 import {
   setHours,
-  isBefore,
-  isAfter,
   setMinutes,
   setSeconds,
   startOfDay,
@@ -13,7 +11,7 @@ import { Op } from 'sequelize';
 import Order from '../models/Order';
 import schedules from '../util/schedule';
 
-class DeliveryStartController {
+class OrderStartController {
   async update(req, res) {
     const { courier_id, order_id } = req.params;
 
@@ -61,4 +59,4 @@ class DeliveryStartController {
   }
 }
 
-export default new DeliveryStartController();
+export default new OrderStartController();

@@ -7,6 +7,7 @@ import { StoreSchema, UpdateSchema } from '../validations/Order';
 
 import Queue from '../../lib/Queue';
 import CreatedOrder from '../jobs/CreatedOrder';
+import CancelledOrder from '../jobs/CancelledOrder';
 
 class OrderController {
   async index(req, res) {
@@ -162,9 +163,37 @@ class OrderController {
   }
 
   async destroy(req, res) {
-    const order = await Order.findByPk(req.params.order_id);
+    const order = await Order.findByPk(req.params.order_id, {
+      include: [
+        {
+          model: Recipient,
+          as: 'recipient',
+          attributes: [
+            'name',
+            'address_street',
+            'address_number',
+            'address_complement',
+            'address_state',
+            'address_city',
+            'address_zipcode',
+          ],
+        },
+        {
+          model: File,
+          as: 'signature',
+          attributes: ['path', 'url'],
+        },
+        {
+          model: Courier,
+          as: 'courier',
+          attributes: ['name', 'email'],
+        },
+      ],
+    });
 
     await order.update({ canceled_at: new Date() });
+
+    await Queue.add(CancelledOrder.key, { order });
 
     return res.json();
   }

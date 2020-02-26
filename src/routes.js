@@ -7,9 +7,10 @@ import CourierController from './app/controllers/CourierController';
 import FileController from './app/controllers/FileController';
 import OrderController from './app/controllers/OrderController';
 import DeliveryController from './app/controllers/DeliveryController';
-import DeliveryStartController from './app/controllers/DeliveryStartController';
-import DeliveryStartController from './app/controllers/DeliveryStartController';
-import DeliveryEndController from './app/controllers/DeliveryEndController';
+import OrderStartController from './app/controllers/OrderStartController';
+import OrderEndController from './app/controllers/OrderEndController';
+import DeliveryProblemController from './app/controllers/DeliveryProblemController';
+import ProblemController from './app/controllers/ProblemController';
 
 import authMiddleware from './app/middlewares/auth';
 
@@ -24,11 +25,20 @@ routes.post('/login', LoginController.store);
 routes.post('/files', upload.single('file'), FileController.store);
 
 // Manager Status Delivery
-routes.put('/couriers/:courier_id/deliveries/:order_id/start_at', DeliveryStartController.update);
-routes.put('/couriers/:courier_id/deliveries/:order_id/end_at', DeliveryEndController.update);
+routes.put(
+  '/couriers/:courier_id/deliveries/:order_id/start_at',
+  OrderStartController.update
+);
+routes.put(
+  '/couriers/:courier_id/deliveries/:order_id/end_at',
+  OrderEndController.update
+);
 
 // Manager Deliveries
 routes.get('/couriers/:courier_id/deliveries', DeliveryController.index);
+
+// Manager Problems
+routes.post('/orders/:order_id/problems', ProblemController.store);
 
 routes.use(authMiddleware);
 routes.post('/recipients', RecipientController.store);
@@ -47,5 +57,8 @@ routes.post('/orders', OrderController.store);
 routes.get('/orders/:order_id', OrderController.show);
 routes.put('/orders/:order_id', OrderController.update);
 routes.delete('/orders/:order_id', OrderController.destroy);
+
+routes.get('/orders-problems', DeliveryProblemController.index);
+routes.get('/orders/:order_id/problems', DeliveryProblemController.show);
 
 export default routes;

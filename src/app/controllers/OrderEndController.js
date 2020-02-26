@@ -2,7 +2,7 @@ import Order from '../models/Order';
 import File from '../models/File';
 import Recipient from '../models/Recipient';
 
-class DeliveryEndController {
+class OrderEndController {
   async update(req, res) {
     const { courier_id, order_id } = req.params;
     const { signature_id } = req.body;
@@ -58,4 +58,4 @@ class DeliveryEndController {
   }
 }
 
-export default new DeliveryEndController();
+export default new OrderEndController();
