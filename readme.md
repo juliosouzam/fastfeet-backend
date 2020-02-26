@@ -76,6 +76,12 @@ $ yarn dev
 $ yarn queue
 ```
 
+## :exclamation: Debug
+
+```sh
+$ yarn dev:debug
+```
+
 ## Next Features
 
 - Tests
