@@ -6,6 +6,10 @@ import RecipientController from './app/controllers/RecipientController';
 import CourierController from './app/controllers/CourierController';
 import FileController from './app/controllers/FileController';
 import OrderController from './app/controllers/OrderController';
+import DeliveryController from './app/controllers/DeliveryController';
+import DeliveryStartController from './app/controllers/DeliveryStartController';
+import DeliveryStartController from './app/controllers/DeliveryStartController';
+import DeliveryEndController from './app/controllers/DeliveryEndController';
 
 import authMiddleware from './app/middlewares/auth';
 
@@ -18,6 +22,13 @@ routes.post('/login', LoginController.store);
 
 // Store Files
 routes.post('/files', upload.single('file'), FileController.store);
+
+// Manager Status Delivery
+routes.put('/couriers/:courier_id/deliveries/:order_id/start_at', DeliveryStartController.update);
+routes.put('/couriers/:courier_id/deliveries/:order_id/end_at', DeliveryEndController.update);
+
+// Manager Deliveries
+routes.get('/couriers/:courier_id/deliveries', DeliveryController.index);
 
 routes.use(authMiddleware);
 routes.post('/recipients', RecipientController.store);
