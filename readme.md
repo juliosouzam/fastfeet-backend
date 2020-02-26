@@ -26,6 +26,7 @@ To run this application i recommend you to install [Docker](https://docs.docker.
 
 First it all, let's go ready the databases.
 Postgres SQL
+
 _Change the name of container and/or password_
 
 ```sh
@@ -33,6 +34,7 @@ $ docker run --name postgres -e POSTGRES_PASSWORD=admin -p 5432:5432 -d postgres
 ```
 
 Second, let's go configure the redis
+
 _Change the name of container_
 
 ```sh
@@ -40,6 +42,7 @@ $ docker run --name redis -p 6379:6379 -d redis:alpine
 ```
 
 Now, let's prepare the application
+
 _Just for organizational purposes, let's create a folder called **fastfeet** and put our codes inside_
 
 ```sh
@@ -54,15 +57,18 @@ $ git clone https://github.com/juliosouzam/fastfeet-backend.git backend
 $ cd backend
 ```
 
-With [*yarn*](https://classic.yarnpkg.com/en/docs/install) installed run...
+With [_yarn_](https://classic.yarnpkg.com/en/docs/install) installed run...
+
 ```sh
 $ yarn
+# and now
 $ cp .env.example .env
 ```
 
-*Dont forget to configure your app url, app port, app secret, database, redis and mail*
+_Dont forget to configure your app url, app port, app secret, database, redis and mail_
 
 ## :video_game: Running
+
 ```sh
 # in the terminal
 $ yarn dev
@@ -71,8 +77,8 @@ $ yarn queue
 ```
 
 ## Next Features
+
 - Tests
 - CI/CD
-
 
 Developed by [me](https://github.com/juliosouzam) with :coffee: and :heart:
