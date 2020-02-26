@@ -5,6 +5,9 @@ import Courier from '../models/Courier';
 
 import { StoreSchema, UpdateSchema } from '../validations/Order';
 
+import Queue from '../../lib/Queue';
+import CreatedOrder from '../jobs/CreatedOrder';
+
 class OrderController {
   async index(req, res) {
     const { page = 1, limit = 20 } = req.query;
@@ -13,7 +16,7 @@ class OrderController {
       where: {
         canceled_at: null,
       },
-      attributes: ['product'],
+      attributes: ['id', 'product', 'start_at', 'end_at'],
       include: [
         {
           model: Recipient,
@@ -53,16 +56,84 @@ class OrderController {
 
       const { recipient_id, courier_id, product } = req.body;
 
-      const order = await Order.create({ recipient_id, courier_id, product });
+      const orderExists = await Order.findOne({
+        where: { recipient_id, courier_id, canceled_at: null },
+      });
+
+      if (orderExists) {
+        return res.status(400).json({
+          error: 'Order already exists to this recipient and courier',
+        });
+      }
+
+      const { id } = await Order.create({ recipient_id, courier_id, product });
+
+      const order = await Order.findByPk(id, {
+        attributes: ['product'],
+        include: [
+          {
+            model: Recipient,
+            as: 'recipient',
+            attributes: [
+              'name',
+              'address_street',
+              'address_number',
+              'address_complement',
+              'address_state',
+              'address_city',
+              'address_zipcode',
+            ],
+          },
+          {
+            model: File,
+            as: 'signature',
+            attributes: ['path', 'url'],
+          },
+          {
+            model: Courier,
+            as: 'courier',
+            attributes: ['name', 'email'],
+          },
+        ],
+      });
+
+      await Queue.add(CreatedOrder.key, { order });
 
       return res.json(order);
     } catch (error) {
-      return res.status(400).json(error);
+      return res.status(400).json(error.message);
     }
   }
 
   async show(req, res) {
-    const order = await Order.findByPk(req.params.order_id);
+    const order = await Order.findByPk(req.params.order_id, {
+      attributes: ['id', 'product', 'start_at', 'end_at'],
+      include: [
+        {
+          model: Recipient,
+          as: 'recipient',
+          attributes: [
+            'name',
+            'address_street',
+            'address_number',
+            'address_complement',
+            'address_state',
+            'address_city',
+            'address_zipcode',
+          ],
+        },
+        {
+          model: File,
+          as: 'signature',
+          attributes: ['path', 'url'],
+        },
+        {
+          model: Courier,
+          as: 'courier',
+          attributes: ['name', 'email'],
+        },
+      ],
+    });
 
     return res.json(order);
   }
