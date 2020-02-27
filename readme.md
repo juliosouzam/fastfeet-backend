@@ -19,6 +19,7 @@ It was developed with [Node.js](https://nodejs.org/en/) for the Rocketseat Bootc
 - [Sequelize](https://sequelize.org/)
 - [Yup](https://github.com/jquense/yup)
 - [Docker](https://docs.docker.com/install/)
+- [Sentry](https://sentry.io)
 
 ## :computer: Configure
 
