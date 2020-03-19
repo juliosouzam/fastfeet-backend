@@ -19,6 +19,8 @@ import multerConfig from './config/multer';
 const routes = new Router();
 const upload = multer(multerConfig);
 
+routes.get('/', (req, res) => res.json({ ok: true }));
+
 routes.post('/login', LoginController.store);
 
 // Store Files
