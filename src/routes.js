@@ -19,7 +19,7 @@ import multerConfig from './config/multer';
 const routes = new Router();
 const upload = multer(multerConfig);
 
-routes.get('/', (req, res) => res.json({ ok: true }));
+routes.get('/', (req, res) => res.json({ ok: 'FastFeet Application' }));
 
 routes.post('/login', LoginController.store);
 
