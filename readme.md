@@ -2,10 +2,10 @@
   <img alt="Fastfeet" title="Fastfeet" src=".github/logo.png" width="300px" />
 </h1>
 <h3 align="center">
-  FastFeet, Backend make with Express.Js and Coffee.
+  FastFeet, Backend made with Express.Js and Coffee.
 </h3>
 
-## :mortar_board: Features
+## :mortar_board: Technologies
 
 It was developed with [Node.js](https://nodejs.org/en/) for the Rocketseat Bootcamp GoStack challange.
 
